@@ -1,0 +1,46 @@
+---
+title: "Literate Programming"
+author: "Leighton Pritchard"
+date: "2022-10-26"
+output:
+  html_document: 
+    toc: true
+    number_sections: true
+    toc_float: true
+  word_document:
+    toc: true
+  pdf_document: 
+    toc: true
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Gapminder analysis
+
+We did an analysis of gapminder data. It was really fun. I wish I could do this all day.
+
+```{r gapminder}
+# Load gapminder data
+gapminder <- read.table(url("https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv"),
+                        sep = ",", header=TRUE)
+
+# Convert character strings to factors
+gapminder$continent <- as.factor(gapminder$continent)
+gapminder$country <- as.factor(gapminder$country)
+```
+
+## GDP per capita against population
+
+We made a cool graph.
+
+```{r myplot, echo=FALSE}
+gapminder %>% ggplot(aes(x=pop, y=gdpPercap)) +
+  geom_point(alpha=0.7, aes(color=continent)) +
+  scale_x_log10() + scale_y_log10() +
+  geom_density2d(alpha=0.5) + facet_wrap(~year)
+```
